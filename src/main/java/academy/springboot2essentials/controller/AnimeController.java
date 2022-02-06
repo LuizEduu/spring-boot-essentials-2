@@ -7,10 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,14 +22,29 @@ public class AnimeController {
 
     @GetMapping
     public ResponseEntity<List<Anime>> list() {
-        log.info(this.dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
+        log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
         return ResponseEntity.ok(animeService.listAll());
     }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Anime> findById(@PathVariable long id) {
-        log.info(this.dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
         return ResponseEntity.ok(animeService.findById(id));
     }
 
+    @PostMapping
+    public ResponseEntity<Anime> save(@RequestBody Anime anime) {
+        return new ResponseEntity<>(animeService.save(anime), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable long id) {
+        animeService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<Void> replace(@RequestBody Anime anime, @PathVariable long id) {
+        animeService.replace(anime, id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
