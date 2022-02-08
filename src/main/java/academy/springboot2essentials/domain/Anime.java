@@ -13,6 +13,7 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
+@Builder
 public class Anime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
