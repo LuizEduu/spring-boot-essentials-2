@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.URL;
 import javax.persistence.*;
 import java.util.Objects;
 
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
